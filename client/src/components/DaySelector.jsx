@@ -1,14 +1,20 @@
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedDay } from "../redux/moviesSlice";
 
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const DaySelector = () => {
 
-const DaySelector = ({ selectedDay, onDayChange }) => {
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    
+    const dispatch = useDispatch();
+    
+    const selectedDay = useSelector((state) => state.slice.selectedDay);
+
     return (
         <div style = {{ width: "100%", textAlign: "center" }}>
             { days.map((day) => (
                 <button
-                    key = {day}
-                    onClick = {() => onDayChange(day)}
+                    key = { day }
+                    onClick = {() => dispatch(setSelectedDay(day))}
                     style =
                     {
                         {
@@ -22,11 +28,11 @@ const DaySelector = ({ selectedDay, onDayChange }) => {
                         }
                     }
                 >
-                {day}
+                { day }
                 </button>
             ))}
         </div>
-    )
-}
+    );
+};
 
 export default DaySelector;

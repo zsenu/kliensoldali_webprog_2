@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedScreening } from "../redux/moviesSlice";
+
 import SeatsSelector from "./SeatsSelector";
 
-const ScreeningSelector = ({ movie, selectedDay }) => {
+const ScreeningSelector = () => {
+
+    const dispatch = useDispatch();
+
+    const movie = useSelector((state) => state.slice.selectedMovie);
+    const selectedDay = useSelector((state) => state.slice.selectedDay);
+    const selectedScreening = useSelector((state) => state.slice.selectedScreening);
 
     const screenings = movie.screenings
         .filter((screening) => screening.weekday === selectedDay)
         .sort((a, b) => a.start_time.localeCompare(b.start_time));
-
-    const [selectedScreening, setSelectedScreening] = useState(null);
-
-    const screeningSelectionHandler = (screening) => {
-        setSelectedScreening(screening);
-    }
-    useEffect(() => {
-        setSelectedScreening(null);
-    }, [movie]);
 
     return (
         <div>
@@ -30,8 +29,8 @@ const ScreeningSelector = ({ movie, selectedDay }) => {
                 {
                     screenings.map((screening) => (
                         <button
-                        key = {screening.id}
-                        onClick = {() => screeningSelectionHandler(screening)}
+                        key = { screening.id }
+                        onClick = {() => dispatch(setSelectedScreening(screening))}
                         style =
                         {{
                             background: (screening === selectedScreening) ? "white" : "#222222",
@@ -41,14 +40,14 @@ const ScreeningSelector = ({ movie, selectedDay }) => {
                             borderRadius: "5px",
                             textAlign: "center"
                         }}>
-                            {screening.start_time}
+                            { screening.start_time }
                         </button>
                     )
                 )}
             </div>
-            { selectedScreening ? < SeatsSelector movie = {movie} selectedDay = {selectedDay} screening = {selectedScreening} /> : null }
+            { selectedScreening ? < SeatsSelector /> : null }
         </div>
     );
-}
+};
 
 export default ScreeningSelector;

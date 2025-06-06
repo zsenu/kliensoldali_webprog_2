@@ -1,7 +1,11 @@
-import React from "react";
+import { useSelector } from "react-redux";
+
 import ScreeningSelector from "./ScreeningSelector.jsx";
 
-const SelectedMovie = ({ movie, selectedDay }) => {
+const SelectedMovie = () => {
+
+    const movie = useSelector((state) => state.slice.selectedMovie);
+
     if (movie == null) return null;
     return (
         <div style =
@@ -13,8 +17,8 @@ const SelectedMovie = ({ movie, selectedDay }) => {
             borderRadius: "10px",
         }}>
             <img
-                src = {`assets/images/${movie.image}`}
-                alt = {`image for ${movie.title}: ${movie.image}`}
+                src = { `assets/images/${ movie.image }` }
+                alt = { `image for ${ movie.title }: ${ movie.image }` }
                 style =
                 {{
                     width: "50%",
@@ -25,15 +29,15 @@ const SelectedMovie = ({ movie, selectedDay }) => {
                     borderRadius: "5px"
                 }}
             />
-            <h2 style = {{ textAlign: "center" }}>{movie.title}</h2>
-            <p><strong>Year of release: </strong> {movie.release_year} </p>
-            <p><strong>Genre: </strong> {movie.genre} </p>
-            <p><strong>Duration: </strong> {movie.duration} minutes </p>
-            <p> {movie.description} </p>
+            <h2 style = {{ textAlign: "center" }}>{ movie.title }</h2>
+            <p><strong>Year of release: </strong> { movie.release_year } </p>
+            <p><strong>Genre: </strong> { movie.genre } </p>
+            <p><strong>Duration: </strong> { movie.duration } minutes </p>
+            <p> { movie.description } </p>
 
-            < ScreeningSelector movie = {movie} selectedDay = {selectedDay} />
+            < ScreeningSelector />
         </div>
-    )
+    );
 };
 
 export default SelectedMovie;

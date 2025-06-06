@@ -1,7 +1,11 @@
-import React from "react";
+import { useDispatch } from "react-redux";
+import { setSelectedMovie } from "../redux/moviesSlice";
 
-const MovieCard = ({ movie, setSelectedMovie }) => {
-    return(
+const MovieCard = ({ movie }) => {
+    
+    const dispatch = useDispatch();
+
+    return (
         <div style =
         {{
             backgroundColor: "#ffffff",
@@ -17,18 +21,18 @@ const MovieCard = ({ movie, setSelectedMovie }) => {
         }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            onClick = {() => setSelectedMovie(movie)}
+            onClick = {() => dispatch(setSelectedMovie(movie))}
         >
 
             <img
-                src = {`assets/images/${movie.image}`}
-                alt = {`image for ${movie.title}: ${movie.image}`}
+                src = { `assets/images/${ movie.image }` }
+                alt = { `image for ${ movie.title }: ${ movie.image }` }
                 style = {{ width: "100%", height: "auto", borderRadius: "5px" }}
             />
-            <h3 style = {{ fontSize: "18px", margin: "10px 0" }}> {movie.title} </h3>
-            <p style = {{ fontSize: "14px", color: "#666666" }}> {movie.genre} - {movie.duration} minutes </p>
+            <h3 style = {{ fontSize: "18px", margin: "10px 0" }}> { movie.title } </h3>
+            <p style = {{ fontSize: "14px", color: "#666666" }}> { movie.genre } - { movie.duration } minutes </p>
           </div>
     );
-}
+};
 
 export default MovieCard;

@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setMovies, setSelectedMovie } from "./redux/moviesSlice";
+
 import DaySelector from "./components/DaySelector";
 import MovieList from "./components/MovieList";
-import moviesData from "./movies.json";
 import SelectedMovie from "./components/SelectedMovie";
+
+// todo: remove this
+import moviesData from "./movies.json";
 
 const App = () => {
 
-    const daysShifted = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-    const [selectedDay, setSelectedDay] = useState(daysShifted[new Date().getDay()]);
-    const [movies, setMovies] = useState([]);
-
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setMovies(moviesData);
-    }, []);
-
-    const newDaySelected = (day) => {
-        if (day === selectedDay) return;
-        setSelectedDay(day);
-        setSelectedMovie(null);
-    }
+        dispatch(setMovies(moviesData));
+    }, [dispatch]);
 
     const clearScriptData = () => {
         Object.keys(localStorage).forEach((key) => {
@@ -30,7 +24,7 @@ const App = () => {
             }
         });
         alert("Cleared localStorage data related to this page.");
-        setSelectedMovie(null);
+        dispatch(setSelectedMovie(null));
     };
 
     return (
@@ -38,11 +32,11 @@ const App = () => {
             <h1 style = {{ textAlign: "center" }}>Cinema Booking</h1>
             <div style={{ width: "100%", textAlign: "center" }}>
                 <p>Made by: Fiók Nándor (GSTQLI)</p>
-                <button onClick = {clearScriptData} style = {{ marginBottom: "20px" }}>
+                <button onClick = { clearScriptData } style = {{ marginBottom: "20px" }}>
                     Clear localStorage data related to this page
                 </button>
             </div>
-            < DaySelector selectedDay = {selectedDay} onDayChange = {newDaySelected} />
+            < DaySelector />
             
             <div style =
             {{
@@ -51,14 +45,14 @@ const App = () => {
                 marginTop: "20px",
             }}>
                 <div style = {{ width: "60%" }}>
-                    < MovieList movies = {movies} selectedDay = {selectedDay} setSelectedMovie = {setSelectedMovie} />
+                    < MovieList />
                 </div>
                 <div style = {{ width: "40%" }}>
-                    < SelectedMovie movie = {selectedMovie} selectedDay = {selectedDay} />
+                    < SelectedMovie />
                 </div>
             </div>
         </div>
     );
 };
 
-export default App
+export default App;

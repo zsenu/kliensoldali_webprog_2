@@ -1,9 +1,14 @@
-import React from "react";
+import { useSelector } from "react-redux";
+
 import MovieCard from "./MovieCard";
 
-const MovieList = ({ movies, selectedDay, setSelectedMovie }) => {
+const MovieList = () => {
+
+    const movies = useSelector((state) => state.slice.movies);
+    const selectedDay = useSelector((state) => state.slice.selectedDay);
+
     const filteredMovies = movies.filter((movie) =>
-    movie.screenings.some((screening) => screening.weekday === selectedDay)
+        movie.screenings.some((screening) => screening.weekday === selectedDay)
     );
 
     return (
@@ -14,13 +19,11 @@ const MovieList = ({ movies, selectedDay, setSelectedMovie }) => {
             gap: "20px",
             marginTop: "20px"
         }}>
-
             {
                 filteredMovies.map((movie) => (
-                    <MovieCard key = {movie.id} movie = {movie} setSelectedMovie = {setSelectedMovie} />
+                    <MovieCard key = { movie.id } movie = { movie } />
                 ))
             }
-            
         </div>
       );
 };
