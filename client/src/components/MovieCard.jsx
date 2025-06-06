@@ -10,7 +10,7 @@ const MovieCard = ({ movie }) => {
         {{
             backgroundColor: "#ffffff",
             color: "black",
-            width: "180px",
+            width: "150px",
             margin: "10px",
             padding: "10px",
             textAlign: "center",
@@ -25,8 +25,8 @@ const MovieCard = ({ movie }) => {
         >
 
             <img
-                src = { `assets/images/${ movie.image }` }
-                alt = { `image for ${ movie.title }: ${ movie.image }` }
+                src = { movie.image_path }
+                alt = { `image for ${ movie.title }: ${ movie.image_path }` }
                 style = {{ width: "100%", height: "auto", borderRadius: "5px" }}
             />
             <h3 style = {{ fontSize: "18px", margin: "10px 0" }}> { movie.title } </h3>

@@ -14,10 +14,10 @@ A fegyelmi vétség legsúlyosabb következménye a hallgató elbocsátása az e
 ## Pontozás
 
 - [X] React használata (kötelező)
-- [ ] Redux használata (kötelező)
+- [X] Redux használata (kötelező)
 - [X] README.md fájl kitöltve
-- [ ] Moziműsor: A filmek és vetítések megfelelően jelennek meg az API-ból lekérve (2pt)
-- [ ] Moziműsor: Hetek között lépkedni tudunk, látjuk a dátumokat (2pt)
+- [X] Moziműsor: A filmek és vetítések megfelelően jelennek meg az API-ból lekérve (2pt)
+- [X] Moziműsor: Hetek között lépkedni tudunk, látjuk a dátumokat (2pt)
 - [ ] Felhasználókezelés: Regisztráció működik (1pt)
 - [ ] Felhasználókezelés: Bejelentkezés működik (1pt)
 - [ ] Navigáció: Navigáció megfelelően változik a be- és kijelentkezésnek megfelelően, bejelentkezés után a felhasználó neve megjelenik az oldalon (2pt)

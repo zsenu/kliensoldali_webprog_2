@@ -17,8 +17,8 @@ const SelectedMovie = () => {
             borderRadius: "10px",
         }}>
             <img
-                src = { `assets/images/${ movie.image }` }
-                alt = { `image for ${ movie.title }: ${ movie.image }` }
+                src = { movie.image_path }
+                alt = { `image for ${ movie.title }: ${ movie.image_path }` }
                 style =
                 {{
                     width: "50%",

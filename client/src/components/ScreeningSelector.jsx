@@ -8,11 +8,12 @@ const ScreeningSelector = () => {
     const dispatch = useDispatch();
 
     const movie = useSelector((state) => state.slice.selectedMovie);
+    const selectedWeek = useSelector((state) => state.slice.selectedWeek);
     const selectedDay = useSelector((state) => state.slice.selectedDay);
     const selectedScreening = useSelector((state) => state.slice.selectedScreening);
 
     const screenings = movie.screenings
-        .filter((screening) => screening.weekday === selectedDay)
+        .filter((screening) => (screening.week_day === selectedDay && screening.week_number === selectedWeek))
         .sort((a, b) => a.start_time.localeCompare(b.start_time));
 
     return (
