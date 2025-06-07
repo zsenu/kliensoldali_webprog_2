@@ -46,4 +46,3 @@ A fegyelmi vétség legsúlyosabb következménye a hallgató elbocsátása az e
   - Sikeres/sikertelen jegyfoglalás
   - Sikeres/sikertelen film hozzáadás/szerkesztés/törlés
   - Sikeres/sikertelen vetítés hozzáadás/szerkesztés/törlés
-
