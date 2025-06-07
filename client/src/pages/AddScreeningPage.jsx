@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllMovies } from "../redux/moviesThunks.js";
 
 const AddScreeningPage = () => {
+    
     const dispatch = useDispatch();
     const movies = useSelector((state) => state.slice.allMovies || []);
     const loginInfo = useSelector((state) => state.slice.loginInfo);
@@ -28,7 +29,7 @@ const AddScreeningPage = () => {
         setMessage(null);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/screenings`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/screenings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -63,66 +64,64 @@ const AddScreeningPage = () => {
     };
 
     return (
-        <div style={{ maxWidth: 500, margin: "40px auto", padding: 24, background: "#222", borderRadius: 8, color: "#fff" }}>
-            <h2>Add Screening</h2>
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style = {{ maxWidth: 500, margin: "40px auto", padding: 24, background: "#222", borderRadius: 8, color: "#fff" }}>
+            <h2> Add Screening </h2>
+            <form onSubmit = { handleSubmit } style = {{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <select
-                    name="movie_id"
-                    value={form.movie_id}
-                    onChange={handleChange}
+                    name = "movie_id"
+                    value = { form.movie_id }
+                    onChange = { handleChange }
                     required
-                    style={{ padding: 10, borderRadius: 4, border: "1px solid #444" }}
+                    style = {{ padding: 10, borderRadius: 4, border: "1px solid #444444" }}
                 >
-                    <option value="">Select Movie</option>
+                    <option value=""> Select Movie </option>
                     {movies.map((movie) => (
-                        <option key={movie.id} value={movie.id}>
-                            {movie.title}
+                        <option key = { movie.id } value = { movie.id }>
+                            { movie.title }
                         </option>
                     ))}
                 </select>
                 <select
-                    name="room_id"
-                    value={form.room_id}
-                    onChange={handleChange}
+                    name = "room_id"
+                    value = { form.room_id }
+                    onChange = { handleChange }
                     required
-                    style={{ padding: 10, borderRadius: 4, border: "1px solid #444" }}
+                    style = {{ padding: 10, borderRadius: 4, border: "1px solid #444444" }}
                 >
-                    <option value="1">Room 1</option>
-                    <option value="2">Room 2</option>
+                    <option value = "1"> Room 1 </option>
+                    <option value = "2"> Room 2 </option>
                 </select>
                 <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
+                    type = "date"
+                    name = "date"
+                    value = { form.date }
+                    onChange = { handleChange }
                     required
-                    style={{ padding: 10, borderRadius: 4, border: "1px solid #444" }}
+                    style = {{ padding: 10, borderRadius: 4, border: "1px solid #444444" }}
                 />
                 <input
-                    type="time"
-                    name="start_time"
-                    value={form.start_time}
-                    onChange={handleChange}
+                    type = "time"
+                    name = "start_time"
+                    value = { form.start_time }
+                    onChange = { handleChange }
                     required
-                    style={{ padding: 10, borderRadius: 4, border: "1px solid #444" }}
+                    style = {{ padding: 10, borderRadius: 4, border: "1px solid #444444" }}
                 />
                 <button
-                    type="submit"
-                    style={{
+                    type = "submit"
+                    style = {{
                         padding: 10,
                         borderRadius: 4,
                         border: "none",
                         background: "#c0392b",
-                        color: "#fff",
+                        color: "white",
                         fontWeight: "bold",
                         cursor: "pointer"
                     }}
-                >
-                    Add screening
-                </button>
+                > Add screening </button>
             </form>
             {message && (
-                <div style={{ marginTop: 16, color: "#fff", textAlign: "center" }}>
+                <div style = {{ marginTop: 16, color: "white", textAlign: "center" }}>
                     {message}
                 </div>
             )}

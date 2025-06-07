@@ -48,7 +48,7 @@ const WeekAndDaySelector = () => {
                         {
                             {
                                 backgroundColor: selectedDay === days.indexOf(day) + 1 ? "maroon" : "#eeeeee",
-                                color: selectedDay === days.indexOf(day) + 1 ? "#ffffff" : "#000000",
+                                color: selectedDay === days.indexOf(day) + 1 ? "white" : "black",
                                 margin: "5px",
                                 padding: "10px",
                                 border: "2px solid #eeeeee",

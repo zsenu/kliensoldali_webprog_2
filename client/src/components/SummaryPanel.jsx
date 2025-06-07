@@ -45,7 +45,7 @@ const SummaryPanel = ({ seats, setSeats, ticketTypes, adultTickets, studentTicke
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/bookings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -139,7 +139,7 @@ const SummaryPanel = ({ seats, setSeats, ticketTypes, adultTickets, studentTicke
                     onClick = {() => navigate("/login")}
                     style = {{
                         background: "#c0392b",
-                        color: "#ffffff",
+                        color: "white",
                         width: "60%",
                         height: "50px",
                         border: "2px solid white",
@@ -156,7 +156,7 @@ const SummaryPanel = ({ seats, setSeats, ticketTypes, adultTickets, studentTicke
                     onClick = { handlePurchase }
                     style = {{
                         background: "#5fc850",
-                        color: "#000000",
+                        color: "black",
                         width: "40%",
                         height: "50px",
                         border: "2px solid white",

@@ -4,7 +4,7 @@ export const fetchAllMovies = createAsyncThunk(
     "slice/fetchAllMovies",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/movies`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/movies`);
             const data = await response.json();
             if (!response.ok) {
                 return rejectWithValue(data.message || "Failed to fetch movies");
@@ -20,7 +20,7 @@ export const fetchMoviesByWeek = createAsyncThunk(
     'slice/fetchMoviesByWeek',
     async (weekNumber, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/movies/week?week_number=${weekNumber}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/movies/week?week_number=${weekNumber}`);
             if (!response.ok) throw new Error('Failed to fetch movies for week');
             const data = await response.json();
             return data.data; // adjust if your API returns differently
@@ -34,7 +34,7 @@ export const fetchUsersBookings = createAsyncThunk(
     "slice/fetchUsersBookings",
     async (token, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/bookings`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 },

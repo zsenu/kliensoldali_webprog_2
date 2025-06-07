@@ -24,7 +24,7 @@ const AddMoviePage = () => {
         setMessage(null);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/movies`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/movies`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

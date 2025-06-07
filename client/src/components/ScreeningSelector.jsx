@@ -26,7 +26,7 @@ const ScreeningSelector = () => {
                 gap: "5px",
                 marginTop: "5px"
             }}>
-                <h3 style = {{ width: "100%", textAlign: "center" }}>Showtimes:</h3>
+                <h3 style = {{ width: "100%", textAlign: "center" }}> Showtimes: </h3>
                 {
                     screenings.map((screening) => (
                         <button
@@ -40,9 +40,7 @@ const ScreeningSelector = () => {
                             height: "50px",
                             borderRadius: "5px",
                             textAlign: "center"
-                        }}>
-                            { screening.start_time }
-                        </button>
+                        }}> { screening.start_time } </button>
                     )
                 )}
             </div>

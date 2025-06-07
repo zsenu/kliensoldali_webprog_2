@@ -50,7 +50,7 @@ const BookingCard = ({ booking, isPast = false }) => {
                     <strong>{ date }</strong> ({ dayName }) - <strong>{ time }</strong>
                 </div>
                 <div>
-                    <strong>Purchased tickets:</strong>
+                    <strong> Purchased tickets: </strong>
                     { booking.ticket_types.map((tt, i) => {
                         const priceObj = ticketInfo.find(t => t.type === tt.type);
                         const price = priceObj ? priceObj.price : 0;
@@ -64,7 +64,7 @@ const BookingCard = ({ booking, isPast = false }) => {
                     })}
                 </div>
                 <div style = {{ marginTop: 8 }}>
-                    <strong>Booked seats:</strong>
+                    <strong> Booked seats: </strong>
                     <div>
                         { booking.seats.map((seat, i) => (
                             <span key = { i }>

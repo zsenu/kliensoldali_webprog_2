@@ -8,7 +8,7 @@ const MovieCard = ({ movie }) => {
     return (
         <div style =
         {{
-            backgroundColor: "#ffffff",
+            backgroundColor: "white",
             color: "black",
             width: "150px",
             margin: "10px",

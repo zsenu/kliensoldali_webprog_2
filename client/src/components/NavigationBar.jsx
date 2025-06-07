@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../redux/moviesSlice";
 
 const navLinkStyle = {
-    color: "#ffffff",
+    color: "white",
     textDecoration: "none",
     background: "#444",
     padding: "8px 14px",
@@ -77,7 +77,7 @@ const NavigationBar = () => {
                     style = {{
                         marginLeft: "auto",
                         background: "#c0392b",
-                        color: "#ffffff",
+                        color: "white",
                         border: "none",
                         borderRadius: "4px",
                         padding: "8px 16px",

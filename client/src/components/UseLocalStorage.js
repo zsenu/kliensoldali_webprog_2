@@ -1,3 +1,4 @@
+// a 2. beadandoban ez nem hasznalt
 import { useState } from 'react';
 
 const UseLocalStorage = (key, initialValue) => {

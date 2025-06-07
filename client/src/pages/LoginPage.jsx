@@ -22,7 +22,7 @@ const LoginPage = () => {
         setMessage(null);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -53,7 +53,7 @@ const LoginPage = () => {
             borderRadius: "8px",
             boxShadow: "0 2px 8px black"
         }}>
-            <h2 style = {{ textAlign: "center", color: "#ffffff" }}> Log in </h2>
+            <h2 style = {{ textAlign: "center", color: "white" }}> Log in </h2>
             <form onSubmit = { handleSubmit } style = {{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <input
                     type = "email"
@@ -82,13 +82,13 @@ const LoginPage = () => {
                         borderRadius: "4px",
                         border: "none",
                         background: "#c0392b",
-                        color: "#ffffff",
+                        color: "white",
                         fontWeight: "bold",
                         cursor: "pointer"
                     }}> Log in </button>
             </form>
             { message && (
-                <div style = {{ marginTop: "16px", color: "#ffffff", textAlign: "center" }}>
+                <div style = {{ marginTop: "16px", color: "white", textAlign: "center" }}>
                     { message }
                 </div>
             )}

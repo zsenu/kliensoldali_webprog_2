@@ -23,7 +23,7 @@ const RegisterPage = () => {
         setMessage(null);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}api/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -56,7 +56,7 @@ const RegisterPage = () => {
             borderRadius: "8px",
             boxShadow: "0 2px 8px black"
         }}>
-            <h2 style = {{ textAlign: "center", color: "#ffffff" }}> Register </h2>
+            <h2 style = {{ textAlign: "center", color: "white" }}> Register </h2>
             <form onSubmit = { handleSubmit } style = {{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <input
                     type = "text"
@@ -105,13 +105,13 @@ const RegisterPage = () => {
                         borderRadius: "4px",
                         border: "none",
                         background: "#c0392b",
-                        color: "#ffffff",
+                        color: "white",
                         fontWeight: "bold",
                         cursor: "pointer"
                     }}> Register </button>
             </form>
             { message && (
-                <div style = {{ marginTop: "16px", color: "#ffffff", textAlign: "center" }}>
+                <div style = {{ marginTop: "16px", color: "white", textAlign: "center" }}>
                     { message }
                 </div>
             )}
