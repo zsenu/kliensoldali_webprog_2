@@ -5,7 +5,7 @@ const RequireUser = ({ children }) => {
     
     const loginInfo = useSelector((state) => state.slice.loginInfo);
 
-    if (!loginInfo.isLoggedIn || loginInfo.isAdmin) {
+    if (!loginInfo.isLoggedIn) {
         return < Navigate to = "/" replace />;
     }
     

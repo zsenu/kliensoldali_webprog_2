@@ -14,40 +14,45 @@ import AddMoviePage from './pages/AddMoviePage';
 import AddScreeningPage from './pages/AddScreeningPage';
 
 const App = () => (
-
-    < BrowserRouter >
-        < NavigationBar />
-        < Routes >
-            < Route path = "/" element = { < MainPage /> } />
-            < Route path = "/register" element = { 
-                < RequireGuest >    
-                    < RegisterPage /> 
-                </ RequireGuest >
-            } />
-            < Route path = "/login" element = { 
-                < RequireGuest >    
-                    < LoginPage /> 
-                </ RequireGuest >
-            } />
-            < Route path = "/bookings" element = { 
-                < RequireUser >    
-                    < BookingsPage /> 
-                </ RequireUser >
-            } />
-            < Route path = "/addmovie" element = { 
-                < RequireAdmin >    
-                    < AddMoviePage /> 
-                </ RequireAdmin >
-            } />
-            < Route path = "/addscreening" element = { 
-                < RequireAdmin >    
-                    < AddScreeningPage /> 
-                </ RequireAdmin >
-            } />
-            < Route path = "*" element = { < Navigate to = "/" /> } />
-        </ Routes >
-    </ BrowserRouter >
-
+    <div style = {{
+            minWidth: "calc(100vw - 40px)",
+            margin: "0 auto",
+            boxSizing: "border-box",
+            minHeight: "100vh",
+    }}>
+        < BrowserRouter >
+            < NavigationBar />
+            < Routes >
+                < Route path = "/" element = { < MainPage /> } />
+                < Route path = "/register" element = { 
+                    < RequireGuest >    
+                        < RegisterPage /> 
+                    </ RequireGuest >
+                } />
+                < Route path = "/login" element = { 
+                    < RequireGuest >    
+                        < LoginPage /> 
+                    </ RequireGuest >
+                } />
+                < Route path = "/bookings" element = { 
+                    < RequireUser >    
+                        < BookingsPage /> 
+                    </ RequireUser >
+                } />
+                < Route path = "/addmovie" element = { 
+                    < RequireAdmin >    
+                        < AddMoviePage /> 
+                    </ RequireAdmin >
+                } />
+                < Route path = "/addscreening" element = { 
+                    < RequireAdmin >    
+                        < AddScreeningPage /> 
+                    </ RequireAdmin >
+                } />
+                < Route path = "*" element = { < Navigate to = "/" /> } />
+            </ Routes >
+        </ BrowserRouter >
+    </div>
 );
 
 export default App;

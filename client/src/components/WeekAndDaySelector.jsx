@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedWeek, setSelectedDay } from "../redux/moviesSlice";
+import { fetchMoviesByWeek } from "../redux/moviesThunks";
 
 const getDate = (weekNumber, dayNumber) =>{
 
@@ -16,6 +18,11 @@ const getDate = (weekNumber, dayNumber) =>{
 
 const WeekAndDaySelector = () => {
 
+    const handleWeekChange = (increment) => {
+        dispatch(setSelectedWeek(selectedWeek + increment));
+        dispatch(fetchMoviesByWeek(selectedWeek + increment));
+    };
+
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     
     const dispatch = useDispatch();
@@ -23,12 +30,14 @@ const WeekAndDaySelector = () => {
     const selectedWeek = useSelector((state) => state.slice.selectedWeek);
     const selectedDay = useSelector((state) => state.slice.selectedDay);
 
+    useEffect(() => { dispatch(fetchMoviesByWeek(selectedWeek)); }, [dispatch, selectedWeek]);
+
     return (
         <div>
             <div style = {{ width: "100%", textAlign: "center", marginBottom: "10px" }}>
-                <button onClick = {() => dispatch(setSelectedWeek(selectedWeek - 1))}> { "<" } </button>
+                <button onClick = {() => { handleWeekChange(-1); }}> { "<" } </button>
                 <span style = {{ margin: "0 10px" }}> Week { selectedWeek } </span>
-                <button onClick = {() => dispatch(setSelectedWeek(selectedWeek + 1))}> { ">" } </button>
+                <button onClick = {() => { handleWeekChange(+1); }}> { ">" } </button>
             </div>
             <div style = {{ width: "100%", textAlign: "center", marginBottom: "10px" }}>
                 { days.map((day) => (

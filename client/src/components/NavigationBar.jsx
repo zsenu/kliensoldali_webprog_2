@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/moviesSlice";
 
 const navLinkStyle = {
-    color: "#fff",
+    color: "#ffffff",
     textDecoration: "none",
     background: "#444",
     padding: "8px 14px",
@@ -14,11 +15,12 @@ const navLinkStyle = {
 
 const NavigationBar = () => {
 
-    const loginInfo = useSelector((state) => state.slice.loginInfo);
+    const dispatch = useDispatch();
 
-    const handleLogout = () => {
-        console.log("logout button clicked");
-    };
+    const loginInfo = useSelector((state) => state.slice.loginInfo);
+    const role = loginInfo.isAdmin ? " (admin)" : " (user)";
+
+    const handleLogout = () => { dispatch(logout()); };
 
     return (
         <nav
@@ -40,9 +42,7 @@ const NavigationBar = () => {
                     fontSize: "1.2em",
                     marginRight: "20px",
                 }}
-            >
-                Tikera
-            </Link>
+            > Tikera </Link>
             { !loginInfo.isLoggedIn && (
                 <div style = {{ marginLeft: "auto"}}>
                     <Link to = "/register" style = { navLinkStyle }>
@@ -53,10 +53,13 @@ const NavigationBar = () => {
                     </Link>
                 </div>
             )}
-            { loginInfo.isLoggedIn && !loginInfo.isAdmin && (
-                <Link to = "/bookings" style = { navLinkStyle }>
-                    My Bookings
-                </Link>
+            { loginInfo.isLoggedIn && (
+                <>
+                    <div style = {{ marginRight: "10px" }}>{ "Logged in as " + loginInfo.username + role }</div>
+                    <Link to = "/bookings" style = { navLinkStyle }>
+                        My Bookings
+                    </Link>
+                </>
             )}
             { loginInfo.isLoggedIn && loginInfo.isAdmin && (
                 <div>
@@ -70,7 +73,7 @@ const NavigationBar = () => {
             )}
             { loginInfo.isLoggedIn && (
                 <button
-                    onClick = { () => handleLogout }
+                    onClick = { handleLogout }
                     style = {{
                         marginLeft: "auto",
                         background: "#c0392b",

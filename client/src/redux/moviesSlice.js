@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchMovies } from './moviesThunks';
+import { fetchAllMovies, fetchMoviesByWeek, fetchUsersBookings } from './moviesThunks';
 
 function getWeekNumber(date) {
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
@@ -9,7 +9,8 @@ function getWeekNumber(date) {
 }
 
 const initialState = {
-    movies: [],
+    allMovies: [],
+    currentWeekMovies: [],
     selectedWeek: getWeekNumber(new Date()),
     selectedDay: new Date().getDay(),
     selectedMovie: null,
@@ -18,8 +19,10 @@ const initialState = {
         isLoggedIn: false,
         isAdmin: false,
         username: null,
+        email: null,
         token: null
     },
+    usersBookings: [],
     loading: false,
     error: null
 };
@@ -28,9 +31,6 @@ const moviesSlice = createSlice({
     name: 'slice',
     initialState,
     reducers: {
-        setMovies(state, action) {
-            state.movies = action.payload;
-        },
         setSelectedWeek(state, action) {
             state.selectedWeek = action.payload;
             state.selectedMovie = null;
@@ -49,25 +49,70 @@ const moviesSlice = createSlice({
             state.selectedScreening = action.payload;
         },
         setBookings(state, action) {
-            state.selectedScreening.bookings = action.payload;
+            state.selectedScreening = {
+                ...state.selectedScreening,
+                bookings: action.payload
+            };
+        },
+        setLoginInfo(state, action) {
+            state.loginInfo = {
+                isLoggedIn: true,
+                isAdmin: action.payload.data.user.role === "admin",
+                username: action.payload.data.user.name,
+                email: action.payload.data.user.email,
+                token: action.payload.data.token
+            }
+        },
+        logout(state) {
+            state.loginInfo = {
+                isLoggedIn: false,
+                isAdmin: false,
+                username: null,
+                email: null,
+                token: null
+            }
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchMovies.pending, (state) => {
+            .addCase(fetchAllMovies.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchMovies.fulfilled, (state, action) => {
+            .addCase(fetchAllMovies.fulfilled, (state, action) => {
                 state.loading = false;
-                state.movies = action.payload.data;
+                state.allMovies = action.payload;
             })
-            .addCase(fetchMovies.rejected, (state, action) => {
+            .addCase(fetchAllMovies.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchMoviesByWeek.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchMoviesByWeek.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentWeekMovies = action.payload;
+            })
+            .addCase(fetchMoviesByWeek.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchUsersBookings.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsersBookings.fulfilled, (state, action) => {
+                state.loading = false;
+                state.usersBookings = action.payload;
+            })
+            .addCase(fetchUsersBookings.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     }
 });
 
-export const { setMovies, setSelectedWeek, setSelectedDay, setSelectedMovie, setSelectedScreening, setBookings } = moviesSlice.actions;
+export const { setMovies, setSelectedWeek, setSelectedDay, setSelectedMovie, setSelectedScreening, setBookings, setLoginInfo, logout } = moviesSlice.actions;
 export default moviesSlice.reducer;

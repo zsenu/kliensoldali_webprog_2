@@ -1,43 +1,84 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setBookings } from "../redux/moviesSlice";
-
-import UseLocalStorage from "./UseLocalStorage";
 
 const SummaryPanel = ({ seats, setSeats, ticketTypes, adultTickets, studentTickets, seniorTickets, resetSelection, resetTickets }) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const movie = useSelector((state) => state.slice.selectedMovie);
     const selectedDay = useSelector((state) => state.slice.selectedDay);
     const screening = useSelector((state) => state.slice.selectedScreening);
-
+    const loginInfo = useSelector((state) => state.slice.loginInfo);
+    
     const totalTickets = adultTickets + studentTickets + seniorTickets;
     const totalPrice = (adultTickets * ticketTypes[0].price) + (studentTickets * ticketTypes[1].price) + (seniorTickets * ticketTypes[2].price);
 
-    const [localBookings, setLocalBookings] = UseLocalStorage(`bookings-${ screening.id }`, []);
+    const handlePurchase = async () => {
+        if (!loginInfo.isLoggedIn) {
+            navigate("/login");
+            return;
+        }
 
-    const handlePurchase = () => {
-        const newBookings = [];
+        // nagyon evil hogy az api {row:x, seat:y} formátumot ad a get methoddal, de a posthoz {row:x, number: y} kell
+        const seatsForAPIPost = [];
+        const seatsForStore = [];
         seats.forEach((row, rowIndex) => {
             row.forEach((seat, colIndex) => {
                 if (seat === 1) {
-                    newBookings.push({ row: rowIndex + 1, seat: colIndex + 1 });
+                    seatsForAPIPost.push({ row: rowIndex + 1, number: colIndex + 1 });
+                    seatsForStore.push({ row: rowIndex + 1, seat: colIndex + 1 });
                 }
             });
         });
 
-        const allBookings = [...screening.bookings, ...localBookings, ...newBookings];
-        setLocalBookings(allBookings);
-        dispatch(setBookings(allBookings));
+        const ticketTypesPayload = [];
+        if (adultTickets > 0) {
+            ticketTypesPayload.push({ type: "normal", quantity: adultTickets });
+        }
+        if (studentTickets > 0) {
+            ticketTypesPayload.push({ type: "student", quantity: studentTickets });
+        }
+        if (seniorTickets > 0) {
+            ticketTypesPayload.push({ type: "senior", quantity: seniorTickets });
+        }
 
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${loginInfo.token}`,
+                },
+                body: JSON.stringify({
+                    screening_id: screening.id,
+                    seats: seatsForAPIPost,
+                    ticket_types: ticketTypesPayload,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Booking successful!");
+                resetSelection();
+                resetTickets();
+            } else {
+                alert(data.message || "Booking failed.");
+            }
+        } catch (error) {
+            alert("An error occurred: " + error.message);
+            return;
+        }
+
+        const allBookings = [...screening.bookings, ...seatsForStore];
+        dispatch(setBookings(allBookings));
+        
         const updatedSeats = Array.from({ length: screening.room.rows }, () => Array(screening.room.seatsPerRow).fill(0));
         allBookings.forEach((booking) => { updatedSeats[booking.row - 1][booking.seat - 1] = -1; });
         setSeats(updatedSeats);
-        resetSelection();
-        resetTickets();
-
-        alert("Booking finalized and saved to localStorage!");
-    }
+    };
 
     return (
         <div style = {{
@@ -93,24 +134,41 @@ const SummaryPanel = ({ seats, setSeats, ticketTypes, adultTickets, studentTicke
                     Total:                      { String(totalPrice).padStart(6, " ") } HUF
                 </pre>
             </div>
-            <button
-                onClick = {() => handlePurchase()}
-                style = {{
-                    background: "#5fc850",
-                    color: "black",
-                    width: "40%",
-                    height: "50px",
-                    border: "2px solid white",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    fontSize: "16px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    marginBottom: "10px"
-                }}
-            >
-                Purchase tickets
-            </button>
+            {!loginInfo.isLoggedIn ? (
+                <button
+                    onClick = {() => navigate("/login")}
+                    style = {{
+                        background: "#c0392b",
+                        color: "#ffffff",
+                        width: "60%",
+                        height: "50px",
+                        border: "2px solid white",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginBottom: "10px"
+                    }}
+                > Log in to purchase </button>
+            ) : (
+                <button
+                    onClick = { handlePurchase }
+                    style = {{
+                        background: "#5fc850",
+                        color: "#000000",
+                        width: "40%",
+                        height: "50px",
+                        border: "2px solid white",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginBottom: "10px"
+                    }}
+                > Purchase tickets </button>
+            )}
         </div>
     );
 };

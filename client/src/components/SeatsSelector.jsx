@@ -2,7 +2,6 @@ import { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import SummaryPanel from "./SummaryPanel";
-import UseLocalStorage from "./UseLocalStorage";
 
 const SeatsSelector = () => {
     
@@ -22,17 +21,14 @@ const SeatsSelector = () => {
     // seat status: 0 = free, -1 = booked, 1 = selected
     const [seats, setSeats] = useState( Array.from({ length: rows }, () => Array(cols).fill(0)));
 
-    const [localBookings] = UseLocalStorage(`bookings-${screening.id}`, []);
-
     useEffect(() => {
         setSelectedAdultTickets(0);
         setSelectedStudentTickets(0);
         setSelectedSeniorTickets(0);
         const newSeats = Array.from({ length: rows }, () => Array(cols).fill(0));
         screening.bookings.forEach((booking) => { newSeats[booking.row - 1][booking.seat - 1] = -1; });
-        localBookings.forEach((booking) => { newSeats[booking.row - 1][booking.seat - 1] = -1; });
         setSeats(newSeats);
-    }, [screening, rows, cols, localBookings]);
+    }, [screening, rows, cols]);
 
     const [selectedAdultTickets, setSelectedAdultTickets] = useState(0);
     const [selectedStudentTickets, setSelectedStudentTickets] = useState(0);
@@ -57,7 +53,6 @@ const SeatsSelector = () => {
     const resetSelection = () => {
         const newSeats = Array.from({ length: rows }, () => Array(cols).fill(0));
         screening.bookings.forEach((booking) => { newSeats[booking.row - 1][booking.seat - 1] = -1; });
-        localBookings.forEach((booking) => { newSeats[booking.row - 1][booking.seat - 1] = -1; });
         setSeats(newSeats);
         setSelectedSeats(0);
     }
@@ -109,30 +104,33 @@ const SeatsSelector = () => {
                 marginBottom: "20px",
                 borderRadius: "5px"
             }}> Canvas </div>
-            {
-                seats.map((row, rowIndex) => (
-                    <div key = { rowIndex } style = {{ display: "flex", justifyContent: "center" }}>
-                        <span style = {{ marginRight: "10px" }}>{ rowIndex + 1 }.</span>
-                        {
-                            row.map((seat, colIndex) => (
-                                <button
-                                    key = { colIndex }
-                                    disabled = { seat == -1 }
-                                    onClick = {() => handleSeatClick(rowIndex, colIndex)}
-                                    style = {{
-                                        width: "25px",
-                                        height: "25px",
-                                        margin: "2px",
-                                        backgroundColor: seat == -1 ? "#333333" : seat == 0 ? "#5fc850" : "white",
-                                        borderRadius: "5px",
-                                        cursor: seat == -1 ? "not-allowed" : "pointer"
-                                    }}
-                                />
-                            ))
-                        }
-                    </div>
-                ))
-            }
+            { seats.map((row, rowIndex) => (
+                <div key = { rowIndex } style = {{ display: "flex", justifyContent: "center" }}>
+                    <span style = {{ 
+                        marginRight: "10px",
+                        display: "inline-block",
+                        width: "2em",
+                        textAlign: "right"
+                    }}>{ rowIndex + 1 }.</span>
+                    {
+                        row.map((seat, colIndex) => (
+                            <button
+                                key = { colIndex }
+                                disabled = { seat == -1 }
+                                onClick = {() => handleSeatClick(rowIndex, colIndex)}
+                                style = {{
+                                    width: "25px",
+                                    height: "25px",
+                                    margin: "2px",
+                                    backgroundColor: seat == -1 ? "#333333" : seat == 0 ? "#5fc850" : "white",
+                                    borderRadius: "5px",
+                                    cursor: seat == -1 ? "not-allowed" : "pointer"
+                                }}
+                            />
+                        ))
+                    }
+                </div>
+            ))}
             <p/>
             {
                 ticketTypes.map((ticket) => (
